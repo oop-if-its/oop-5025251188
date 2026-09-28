@@ -11,16 +11,33 @@ public class Buku
     //   bisa mengubahnya sembarangan). Jadikan field PRIVATE (awali nama dengan
     //   _) lalu ekspos lewat properti read-only: public get, tanpa setter
     //   publik. Nama properti tetap Isbn, Judul, StokTotal, StokTersedia.
-    public string Isbn = "";
-    public string Judul = "";
-    public int StokTotal;
-    public int StokTersedia;
+    private readonly string _isbn;
+    private readonly string _judul;
+    private readonly int _stokTotal;
+    private int _stokTersedia;
+
+    public string Isbn => _isbn;
+    public string Judul => _judul;
+    public int StokTotal => _stokTotal;
+    public int StokTersedia => _stokTersedia;
 
     // TODO(Level 8): properti di bawah ini menerima nilai apa saja. Beri nilai
     //   awal 7 dan tambahkan logika validasi di accessor set (perlu field
     //   pendukung): nilai harus 1..30, di luar itu lempar
     //   ArgumentOutOfRangeException dan JANGAN mengubah nilai lama.
-    public int BatasHariPinjam { get; set; }
+    private int _batasHariPinjam = 7;
+
+    public int BatasHariPinjam
+    {
+        get => _batasHariPinjam;
+        set
+        {
+            if (value < 1 || value > 30)
+                throw new ArgumentOutOfRangeException(nameof(value), "BatasHariPinjam harus antara 1 sampai 30 hari.");
+
+            _batasHariPinjam = value;
+        }
+    }
 
     // TODO(Level 2): validasi di AWAL konstruktor -- judul null/kosong/spasi
     //   saja atau stokTotal negatif -> lempar ArgumentException
@@ -33,14 +50,52 @@ public class Buku
     {
         // TODO(Level 1): isi Isbn, Judul, StokTotal dari parameter; StokTersedia
         //   awal = stokTotal.
-        throw new NotImplementedException("Level 1 belum diimplementasikan");
+        if (string.IsNullOrWhiteSpace(judul))
+            throw new ArgumentException("Judul tidak boleh kosong.", nameof(judul));
+
+        if (stokTotal < 0)
+            throw new ArgumentOutOfRangeException(nameof(stokTotal), "Stok total tidak boleh negatif.");
+
+        _isbn = NormalkanIsbn(isbn);
+        _judul = judul;
+        _stokTotal = stokTotal;
+        _stokTersedia = stokTotal;
+    }
+
+    private static string NormalkanIsbn(string isbn)
+    {
+        if (isbn is null)
+            throw new ArgumentNullException(nameof(isbn), "ISBN tidak boleh null.");
+
+        var bersih = isbn.Replace("-", "").Replace(" ", "");
+
+        if (bersih.Length != 13)
+            throw new ArgumentException("ISBN harus terdiri dari 13 digit.", nameof(isbn));
+
+        var total = 0;
+        for (var i = 0; i < 13; i++)
+        {
+            if (bersih[i] < '0' || bersih[i] > '9')
+                throw new ArgumentException("ISBN hanya boleh berisi angka.", nameof(isbn));
+
+            var angka = bersih[i] - '0';
+            total += i % 2 == 0 ? angka : angka * 3;
+        }
+
+        if (total % 10 != 0)
+            throw new ArgumentException("Digit cek ISBN-13 tidak valid.", nameof(isbn));
+
+        return bersih;
     }
 
     public void Pinjam()
     {
         // TODO(Level 3): kurangi StokTersedia satu. Kalau stok sudah 0, lempar
         //   InvalidOperationException dan biarkan stok tetap.
-        throw new NotImplementedException("Level 3 belum diimplementasikan");
+        if (_stokTersedia == 0)
+            throw new InvalidOperationException("Stok buku sedang habis, tidak bisa dipinjam.");
+
+        _stokTersedia--;
     }
 
     public void Kembalikan()
@@ -48,7 +103,10 @@ public class Buku
         // TODO(Level 4): tambah StokTersedia satu. Kalau stok sudah sama dengan
         //   StokTotal (tidak ada yang sedang dipinjam), lempar
         //   InvalidOperationException dan biarkan stok tetap.
-        throw new NotImplementedException("Level 4 belum diimplementasikan");
+        if (_stokTersedia >= _stokTotal)
+            throw new InvalidOperationException("Semua eksemplar sudah ada di perpustakaan.");
+
+        _stokTersedia++;
     }
 
     // Level 5: properti TERHITUNG -- tanpa field pendukung, tanpa setter.
@@ -58,7 +116,10 @@ public class Buku
         {
             // TODO(Level 5): kembalikan StokTersedia / StokTotal * 100 (double).
             //   Kalau StokTotal = 0 kembalikan 0 (bukan NaN).
-            throw new NotImplementedException("Level 5 belum diimplementasikan");
+            if (_stokTotal == 0)
+                return 0;
+
+            return (double)_stokTersedia / _stokTotal * 100;
         }
     }
 
@@ -68,7 +129,7 @@ public class Buku
         {
             // TODO(Level 5): kembalikan "Tersedia" kalau StokTersedia > 0,
             //   selain itu "Habis".
-            throw new NotImplementedException("Level 5 belum diimplementasikan");
+            return _stokTersedia > 0 ? "Tersedia" : "Habis";
         }
     }
 
