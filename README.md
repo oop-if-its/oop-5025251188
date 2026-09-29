@@ -1,4 +1,4 @@
-# oop-nrp
+# oop-5025251188
 
 Repo tugas mata kuliah **Pemrograman Berorientasi Objek (C#)**, dibuat dari template [`oop-if-its/oop-template`](https://github.com/oop-if-its/oop-template). Ganti judul di atas jadi nama repo kalian sendiri (`oop-nrp`, contoh: `oop-5025201012`).
 
@@ -54,8 +54,8 @@ dotnet test pertemuan-03/tests -v normal
 ---
 
 ## Identitas
-- Nama: (tulis di sini)
-- NRP: (tulis di sini)
-- Kelas: (tulis di sini)
+- Nama: Novaldi Rayhan Asshiddiqi
+- NRP: 5025251188
+- Kelas: F
 
 Bagian di atas diisi sekali di awal semester. Kalau pertemuan mendatang butuh section reflektif baru di README ini (heading yang dicek otomatis lewat test), section itu akan ditambahkan di sini — jangan ganti nama heading yang sudah ada.
