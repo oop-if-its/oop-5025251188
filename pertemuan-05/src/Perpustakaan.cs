@@ -18,14 +18,26 @@ public class Perpustakaan
         // TODO(Level 8): anggota null -> ArgumentNullException; Id yang sudah
         //   terdaftar -> InvalidOperationException; selain itu tambahkan ke
         //   daftar.
-        throw new NotImplementedException("Level 8 belum diimplementasikan");
+        if (anggota is null)
+            throw new ArgumentNullException(nameof(anggota), "Anggota tidak boleh null.");
+
+        if (Cari(anggota.Id) is not null)
+            throw new InvalidOperationException($"Anggota dengan Id {anggota.Id} sudah terdaftar.");
+
+        _anggota.Add(anggota);
     }
 
     public Anggota? Cari(string id)
     {
         // TODO(Level 8): kembalikan anggota dengan Id yang sama persis, atau
         //   null.
-        throw new NotImplementedException("Level 8 belum diimplementasikan");
+        foreach (var anggota in _anggota)
+        {
+            if (anggota.Id == id)
+                return anggota;
+        }
+
+        return null;
     }
 
     public int JumlahMahasiswa()
@@ -33,12 +45,26 @@ public class Perpustakaan
         // TODO(Level 8): hitung anggota yang bertipe Mahasiswa (termasuk
         //   turunannya, mis. Asisten -- ingat: turunan "adalah sebuah"
         //   Mahasiswa). Petunjuk: `is` atau OfType<T>().
-        throw new NotImplementedException("Level 8 belum diimplementasikan");
+        var jumlah = 0;
+        foreach (var anggota in _anggota)
+        {
+            if (anggota is Mahasiswa)
+                jumlah++;
+        }
+
+        return jumlah;
     }
 
     public int JumlahDosen()
     {
         // TODO(Level 8): hitung anggota yang bertipe Dosen.
-        throw new NotImplementedException("Level 8 belum diimplementasikan");
+        var jumlah = 0;
+        foreach (var anggota in _anggota)
+        {
+            if (anggota is Dosen)
+                jumlah++;
+        }
+
+        return jumlah;
     }
 }

@@ -22,3 +22,60 @@ classDiagram
 Jangan hapus baris penanda di bawah ini — jawaban kalian harus ditulis **setelah** baris itu, bukan sebelumnya.
 
 <!-- TULIS JAWABAN KALIAN DI BAWAH BARIS INI -->
+
+```mermaid
+classDiagram
+    Anggota <|-- Mahasiswa
+    Anggota <|-- Dosen
+    Mahasiswa <|-- Asisten
+    Anggota *-- Alamat
+    Anggota *-- LogAktivitas
+
+    class Anggota {
+        + Id : string
+        + Nama : string
+        + Alamat : Alamat
+        + BatasPinjam : int
+        # set_BatasPinjam() protected
+        - _log : LogAktivitas
+        + Info() string
+        + Pinjam(judul) void
+    }
+    class Mahasiswa {
+        + Nrp : string
+        + Prodi : string
+        + InfoLengkap() string
+    }
+    class Dosen {
+        + Nip : string
+        + InfoLengkap() string
+    }
+    class Asisten {
+        + MataKuliah : string
+        + InfoAsisten() string
+    }
+    class Alamat {
+        + Jalan : string
+        + Kota : string
+        + ToString() string
+    }
+    class LogAktivitas {
+        - _entri : List~string~
+        + Semua : IReadOnlyList~string~
+        + Catat(pesan) void
+    }
+```
+
+Penjelasan hubungannya:
+
+- Pewarisan (is-a), panah segitiga kosong `<|--`:
+  - Mahasiswa adalah turunan dari Anggota
+  - Dosen adalah turunan dari Anggota
+  - Asisten adalah turunan dari Mahasiswa, jadi hierarkinya tiga tingkat
+- Komposisi (has-a), berlian terisi `*--`:
+  - Anggota memiliki satu Alamat
+  - Anggota memiliki satu LogAktivitas sendiri (bukan dipakai bersama)
+
+Simbol visibilitas: `+` public, `#` protected, `-` private.
+Setter BatasPinjam ditandai `#` karena protected: hanya Anggota dan turunannya
+yang boleh mengubahnya.

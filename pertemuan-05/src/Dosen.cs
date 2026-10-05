@@ -16,12 +16,16 @@ public class Dosen : Anggota
     {
         // TODO(Level 3): nip null/kosong/spasi -> ArgumentException; selain itu
         //   isi Nip.
-        throw new NotImplementedException("Level 3 belum diimplementasikan");
+        if (string.IsNullOrWhiteSpace(nip))
+            throw new ArgumentException("Nip tidak boleh kosong.", nameof(nip));
+
+        Nip = nip;
+        BatasPinjam = 10;
     }
 
     public string InfoLengkap()
     {
         // TODO(Level 7): "<Info()> | NIP: <Nip> | Alamat: <Alamat>".
-        throw new NotImplementedException("Level 7 belum diimplementasikan");
+        return $"{Info()} | NIP: {Nip} | Alamat: {Alamat}";
     }
 }

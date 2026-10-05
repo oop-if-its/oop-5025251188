@@ -17,13 +17,14 @@ public class Anggota
     // TODO(Level 4): setter BatasPinjam sekarang PUBLIC sehingga siapa pun bisa
     //   mengubahnya. Ubah menjadi `protected set` supaya hanya Anggota dan kelas
     //   turunannya yang boleh mengubah. Nilai awal untuk Anggota biasa = 2.
-    public int BatasPinjam { get; set; } = 2;
+    public int BatasPinjam { get; protected set; } = 2;
 
     public int JumlahPinjam { get; private set; }
 
     // TODO(Level 9): tambahkan field `private readonly LogAktivitas _log =
     //   new();` -- setiap Anggota MEMILIKI log-nya sendiri (bukan satu log
     //   bersama/static).
+    private readonly LogAktivitas _log = new();
 
     // Level 9: riwayat aktivitas milik anggota ini.
     public IReadOnlyList<string> Riwayat
@@ -32,7 +33,7 @@ public class Anggota
         {
             // TODO(Level 9): kembalikan isi log milik anggota ini
             //   (LogAktivitas.Semua).
-            throw new NotImplementedException("Level 9 belum diimplementasikan");
+            return _log.Semua;
         }
     }
 
@@ -41,13 +42,24 @@ public class Anggota
         // TODO(Level 2): id/nama null/kosong/spasi -> ArgumentException; alamat
         //   null -> ArgumentNullException; selain itu isi Id, Nama, Alamat
         //   (simpan objek Alamat yang sama, jangan disalin).
-        throw new NotImplementedException("Level 2 belum diimplementasikan");
+        if (string.IsNullOrWhiteSpace(id))
+            throw new ArgumentException("Id tidak boleh kosong.", nameof(id));
+
+        if (string.IsNullOrWhiteSpace(nama))
+            throw new ArgumentException("Nama tidak boleh kosong.", nameof(nama));
+
+        if (alamat is null)
+            throw new ArgumentNullException(nameof(alamat), "Alamat tidak boleh null.");
+
+        Id = id;
+        Nama = nama;
+        Alamat = alamat;
     }
 
     public string Info()
     {
         // TODO(Level 2): kembalikan "<Id> - <Nama>" (contoh: "M01 - Sari").
-        throw new NotImplementedException("Level 2 belum diimplementasikan");
+        return $"{Id} - {Nama}";
     }
 
     // TODO(Level 9): setiap peminjaman yang berhasil juga dicatat ke log:
@@ -57,6 +69,13 @@ public class Anggota
         // TODO(Level 5): judul null/kosong -> ArgumentException; JumlahPinjam
         //   sudah mencapai BatasPinjam -> InvalidOperationException; selain itu
         //   naikkan JumlahPinjam satu.
-        throw new NotImplementedException("Level 5 belum diimplementasikan");
+        if (string.IsNullOrWhiteSpace(judul))
+            throw new ArgumentException("Judul tidak boleh kosong.", nameof(judul));
+
+        if (JumlahPinjam >= BatasPinjam)
+            throw new InvalidOperationException($"Batas pinjam {BatasPinjam} buku sudah tercapai.");
+
+        JumlahPinjam++;
+        _log.Catat($"Pinjam: {judul}");
     }
 }
