@@ -10,7 +10,7 @@ namespace Pertemuan07;
 //   diperpanjang).
 // TODO(Level 8): implementasikan IDapatDicetak (implementasi biasa / implisit --
 //   method Cetak() bersifat public).
-public class Buku : Item
+public class Buku : Item, IDapatDipinjam, IDapatDiperpanjang, IDapatDicetak
 {
     public string Penulis { get; }
 
@@ -42,4 +42,41 @@ public class Buku : Item
 
     // TODO(Level 8): implementasi IDapatDicetak -> "Buku: <Judul> oleh
     //   <Penulis>".
+    private readonly StatusPinjam _status = new();
+
+    public override int HitungDenda(int hariTerlambat)
+    {
+        if (hariTerlambat <= 0)
+            return 0;
+
+        return hariTerlambat * 2000;
+    }
+
+    public override int MasaPinjamHari => 14;
+
+    public bool Tersedia => !_status.Dipinjam;
+
+    public void Pinjam() => _status.Tandai();
+
+    public void Kembalikan()
+    {
+        _status.Lepas();
+        JumlahPerpanjangan = 0;
+    }
+
+    public int JumlahPerpanjangan { get; private set; }
+
+    public bool Perpanjang()
+    {
+        if (!_status.Dipinjam)
+            throw new InvalidOperationException("Buku tidak sedang dipinjam.");
+
+        if (JumlahPerpanjangan >= 2)
+            return false;
+
+        JumlahPerpanjangan++;
+        return true;
+    }
+
+    public string Cetak() => $"Buku: {Judul} oleh {Penulis}";
 }

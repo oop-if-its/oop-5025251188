@@ -9,7 +9,7 @@ namespace Pertemuan07;
 //   "item umum" yang bisa dibuat langsung.
 // TODO(Level 9): buat Item mengimplementasikan IComparable<Item> (urut
 //   berdasarkan Judul).
-public class Item
+public abstract class Item : IComparable<Item>
 {
     public string Judul { get; }
 
@@ -24,12 +24,12 @@ public class Item
     // TODO(Level 1): jadikan `abstract` (tanpa badan, titik koma saja) -- setiap
     //   jenis item wajib menentukan dendanya sendiri. Di kelas turunan tulis
     //   `public override int HitungDenda(int hariTerlambat)`.
-    public virtual int HitungDenda(int hariTerlambat) => throw new NotImplementedException("Level 1 belum diimplementasikan");
+    public abstract int HitungDenda(int hariTerlambat);
 
     // TODO(Level 2): jadikan `abstract` (properti tanpa badan: `public abstract
     //   int MasaPinjamHari { get; }`); override di Buku (14), Majalah (3), Dvd
     //   (2).
-    public virtual int MasaPinjamHari => throw new NotImplementedException("Level 2 belum diimplementasikan");
+    public abstract int MasaPinjamHari { get; }
 
     // Method KONKRET di kelas abstrak: logika bersama yang memakai anggota abstrak.
     public DateOnly HitungTanggalKembali(DateOnly tanggalPinjam)
@@ -37,7 +37,7 @@ public class Item
         // TODO(Level 2): kembalikan tanggalPinjam ditambah MasaPinjamHari hari.
         //   (Item tidak perlu tahu jenis konkretnya -- MasaPinjamHari yang
         //   menentukan.)
-        throw new NotImplementedException("Level 2 belum diimplementasikan");
+        return tanggalPinjam.AddDays(MasaPinjamHari);
     }
 
     // Hook: kelas turunan BOLEH menimpa, tapi tidak wajib. SUDAH LENGKAP.
@@ -53,7 +53,21 @@ public class Item
         //   "Denda: Rp<HitungDenda(hari)>" (angka polos tanpa pemisah ribuan).
         //   Kalau Catatan() TIDAK kosong, tambahkan baris 5 "Catatan:
         //   <Catatan()>".
-        throw new NotImplementedException("Level 10 belum diimplementasikan");
+        var hari = hariTerlambat < 0 ? 0 : hariTerlambat;
+
+        var baris = new List<string>
+        {
+            "STRUK PENGEMBALIAN",
+            $"Judul: {Judul}",
+            $"Terlambat: {hari} hari",
+            $"Denda: Rp{HitungDenda(hari)}"
+        };
+
+        var catatan = Catatan();
+        if (!string.IsNullOrWhiteSpace(catatan))
+            baris.Add($"Catatan: {catatan}");
+
+        return string.Join("\n", baris);
     }
 
     public int CompareTo(Item? other)
@@ -61,6 +75,9 @@ public class Item
         // TODO(Level 9): null dianggap lebih kecil (kembalikan 1); selain itu
         //   bandingkan Judul dengan string.Compare(...,
         //   StringComparison.OrdinalIgnoreCase).
-        throw new NotImplementedException("Level 9 belum diimplementasikan");
+        if (other is null)
+            return 1;
+
+        return string.Compare(Judul, other.Judul, StringComparison.OrdinalIgnoreCase);
     }
 }
