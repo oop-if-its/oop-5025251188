@@ -14,7 +14,23 @@ public static class Katalog
         //   tiap elemen; kalau sebuah elemen melempar InvalidOperationException
         //   (sedang dipinjam), lewati tanpa menghentikan yang lain. Kembalikan
         //   JUMLAH yang berhasil dipinjam.
-        throw new NotImplementedException("Level 5 belum diimplementasikan");
+        if (daftar is null)
+            throw new ArgumentNullException(nameof(daftar));
+
+        var berhasil = 0;
+        foreach (var item in daftar)
+        {
+            try
+            {
+                item.Pinjam();
+                berhasil++;
+            }
+            catch (InvalidOperationException)
+            {
+            }
+        }
+
+        return berhasil;
     }
 
     public static List<IDapatDipinjam> HanyaBisaDipinjam(IEnumerable<Item> daftar)
@@ -22,7 +38,17 @@ public static class Katalog
         // TODO(Level 5): null -> ArgumentNullException. Dari campuran Item,
         //   ambil hanya yang mengimplementasikan IDapatDipinjam (urutan asli
         //   dipertahankan). BukuReferensi tidak ikut.
-        throw new NotImplementedException("Level 5 belum diimplementasikan");
+        if (daftar is null)
+            throw new ArgumentNullException(nameof(daftar));
+
+        var hasil = new List<IDapatDipinjam>();
+        foreach (var item in daftar)
+        {
+            if (item is IDapatDipinjam bisa)
+                hasil.Add(bisa);
+        }
+
+        return hasil;
     }
 }
 
@@ -36,7 +62,10 @@ public class LayananPeminjaman
     {
         // TODO(Level 6): notifikasi null -> ArgumentNullException; selain itu
         //   simpan ke field private readonly `_notifikasi`.
-        throw new NotImplementedException("Level 6 belum diimplementasikan");
+        if (notifikasi is null)
+            throw new ArgumentNullException(nameof(notifikasi));
+
+        _notifikasi = notifikasi;
     }
 
     public void Pinjamkan(Item item, string namaAnggota)
@@ -46,6 +75,13 @@ public class LayananPeminjaman
         //   Pinjam() (kalau melempar, biarkan menjalar dan JANGAN kirim
         //   notifikasi), lalu kirim pesan "<namaAnggota> meminjam <Judul>" lewat
         //   INotifikasi.
-        throw new NotImplementedException("Level 6 belum diimplementasikan");
+        if (item is null)
+            throw new ArgumentNullException(nameof(item));
+
+        if (item is not IDapatDipinjam bisa)
+            throw new InvalidOperationException($"{item.Judul} tidak bisa dipinjam.");
+
+        bisa.Pinjam();
+        _notifikasi.Kirim($"{namaAnggota} meminjam {item.Judul}");
     }
 }
