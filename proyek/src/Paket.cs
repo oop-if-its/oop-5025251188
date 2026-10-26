@@ -1,11 +1,15 @@
 namespace Proyek;
 
-public abstract class Paket
+public abstract class Paket : IBisaDilacak
 {
+    private readonly RiwayatPelacakan _riwayat = new();
+
     public string Resi { get; }
     public double Berat { get; }
     public int Jarak { get; }
     public StatusPaket Status { get; private set; }
+
+    public IReadOnlyList<string> Riwayat => _riwayat.Catatan;
 
     protected Paket(string resi, double berat, int jarak)
     {
@@ -22,9 +26,19 @@ public abstract class Paket
         Berat = berat;
         Jarak = jarak;
         Status = StatusPaket.DiTerima;
+        _riwayat.Tambah(StatusPaket.DiTerima, "paket masuk gudang");
     }
 
     public abstract decimal HitungOngkir();
+
+    public void MajuStatus(StatusPaket statusBaru)
+    {
+        if ((int)statusBaru != (int)Status + 1)
+            throw new StatusTidakValidException($"Status {Status} tidak bisa langsung ke {statusBaru}.");
+
+        Status = statusBaru;
+        _riwayat.Tambah(statusBaru, "status diperbarui");
+    }
 
     public override string ToString()
     {
