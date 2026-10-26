@@ -16,8 +16,14 @@ public abstract class Paket : IBisaDilacak
         if (string.IsNullOrWhiteSpace(resi))
             throw new ArgumentException("Resi tidak boleh kosong.");
 
+        if (!resi.StartsWith("EKS"))
+            throw new ArgumentException("Resi harus diawali EKS.");
+
         if (berat <= 0)
             throw new ArgumentException("Berat harus lebih dari 0.");
+
+        if (berat > 500)
+            throw new ArgumentException("Berat maksimal 500 kg.");
 
         if (jarak <= 0)
             throw new ArgumentException("Jarak harus lebih dari 0.");

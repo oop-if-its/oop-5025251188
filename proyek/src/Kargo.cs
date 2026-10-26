@@ -15,10 +15,10 @@ public class Kargo : Paket
 
     public override decimal HitungOngkir()
     {
-        decimal ongkir = (decimal)Berat * 1500 + Jarak * 2000;
+        decimal ongkir = (decimal)Berat * 1500 + Jarak * 1000;
 
         if (PakaiAsuransi)
-            ongkir = ongkir + 25000;
+            ongkir = ongkir + 50000;
 
         return ongkir;
     }

@@ -8,6 +8,6 @@ public class Reguler : Paket
 
     public override decimal HitungOngkir()
     {
-        return (decimal)Berat * 3000 + Jarak * 500;
+        return (decimal)Berat * 1000 + Jarak * 200;
     }
 }

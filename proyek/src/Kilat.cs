@@ -8,6 +8,6 @@ public class Kilat : Paket
 
     public override decimal HitungOngkir()
     {
-        return (decimal)Berat * 5000 + Jarak * 1000 + 10000;
+        return (decimal)Berat * 2000 + Jarak * 1000 + 20000;
     }
 }
