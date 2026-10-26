@@ -1,19 +1,15 @@
 # Proyek ETS PBO
 
-> Baca `SOAL.md` dulu. Ganti semua `TULIS_DI_SINI` di berkas ini, `AI-LOG.md`, dan `PROSES.md`. Berkas yang masih berisi
-> `TULIS_DI_SINI` dianggap belum diisi.
-
 ## Identitas
 
-- Nama: TULIS_DI_SINI
-- NRP: TULIS_DI_SINI
-- Domain (NRP dibagi 6, ambil sisanya): TULIS_DI_SINI
+- Nama: Novaldi Rayhan Asshiddiqi
+- NRP: 5025251188
+- Domain (NRP dibagi 6, ambil sisanya): 4 — Ekspedisi Paket
 
 ## Domain saya
 
-Jelaskan dengan kata-kata sendiri (2-3 kalimat): siapa penggunanya dan masalah apa yang diselesaikan aplikasi ini.
-
-TULIS_DI_SINI
+Saya dapat domain Ekspedisi Paket, jadi ceritanya aplikasi ini dipakai petugas ekspedisi untuk mencatat paket.
+Tiap jenis paket tarifnya beda, dan status paket harus urut, DiTerima, DiKirim, Sampai.
 
 ## Cara menjalankan
 
@@ -24,35 +20,60 @@ dotnet run --project proyek/src
 
 ## Diagram kelas
 
-Ganti contoh ini dengan diagram kelas proyek kalian (sintaks Mermaid, tampil otomatis di GitHub).
-
 ```mermaid
 classDiagram
-    class Induk {
-        <<abstract>>
-        +Hitung() decimal*
+    class IBisaDilacak {
+        <<interface>>
+        +Resi string
+        +Status StatusPaket
+        +MajuStatus(statusBaru)
     }
-    class TurunanA
-    class TurunanB
-    Induk <|-- TurunanA
-    Induk <|-- TurunanB
+    class IPencatat {
+        <<interface>>
+        +Catat(pesan)
+    }
+    class Paket {
+        <<abstract>>
+        +Resi string
+        +Berat double
+        +Jarak int
+        +Status StatusPaket
+        +HitungOngkir() decimal*
+        +MajuStatus(statusBaru)
+    }
+    class Kargo {
+        +PakaiAsuransi bool
+    }
+
+    IBisaDilacak <|.. Paket
+    IBisaDilacak <|.. Kontainer
+    Paket <|-- Reguler
+    Paket <|-- Kilat
+    Paket <|-- Kargo
+    Paket *-- RiwayatPelacakan
+    Kontainer o-- Paket
+    Ekspedisi o-- Paket
+    IPencatat <|.. PencatatLayar
+    IPencatat <|.. PencatatBerkas
+    Ekspedisi --> IPencatat
 ```
 
 ## Status kebutuhan
 
-Isi kolom Status dengan `selesai`, `sebagian`, atau `belum`.
-
 | ID | Kebutuhan | Status | Catatan |
 |---|---|---|---|
-| K1 | Enkapsulasi | TULIS_DI_SINI | |
-| K2 | Komposisi dan pewarisan | TULIS_DI_SINI | |
-| K3 | Polimorfisme | TULIS_DI_SINI | |
-| K4 | Abstract class dan interface | TULIS_DI_SINI | |
-| K5 | Exception dan life cycle | TULIS_DI_SINI | |
-| K6 | Aplikasi berjalan | TULIS_DI_SINI | |
-| Khas | Aturan khas domain | TULIS_DI_SINI | |
-| Bonus | Bonus yang dikerjakan | TULIS_DI_SINI | |
+| K1 | Enkapsulasi | selesai | Data disembunyikan dan dicek dulu (Paket.cs) |
+| K2 | Komposisi dan pewarisan | selesai | Paket punya tiga jenis turunan (Reguler, Kilat, Kargo) |
+| K3 | Polimorfisme | selesai | Tiap jenis menghitung ongkirnya sendiri (HitungOngkir) |
+| K4 | Abstract class dan interface | selesai | Pencatat dikirim dari luar ( IPencatat, Ekspedisi) |
+| K5 | Exception dan life cycle | selesai | Dua error buatan sendiri (UbahStatus, PencatatBerkas) |
+| K6 | Aplikasi berjalan | selesai | Demo enam langkah, tidak crash (Program.cs) |
+| Khas | Aturan khas domain | selesai | Status hanya maju selangkah (MajuStatus) |
+| Bonus | Bonus yang dikerjakan | belum | — |
 
 ## Yang belum selesai
 
-TULIS_DI_SINI (tulis "tidak ada" bila semuanya selesai)
+Proyek dikerjakan 26 Oktober 2026, jadi commit tidak tersebar di tiga
+hari. Jumlah commit lebih dari delapan.
+
+Bonus belum dikerjakan, unit test, JSON, IComparable, pola desain.
