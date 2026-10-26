@@ -4,7 +4,8 @@ Berkas ini menjadi bahan utama ujian lisan. Tulis dengan kata-kata sendiri.
 
 ## 1. Domain dan masalahnya
 
-domainnya apa, apk nya buat siapa, dua masalah yang mau diselesaikan (tarif tiap jenis yang beda & status yang gampang salah)
+Ekspedisi Paket, aplikasi untuk mencatat paket yang dikirim. masalahnya adalah tarif tiap jenis paket beda, dan status paket gampang salah kalau tidak dijaga, misalnya
+dilaporkan "sampai" padahal belum dikirim.
 
 ## 2. Rancangan kelas
 
