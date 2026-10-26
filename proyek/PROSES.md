@@ -22,9 +22,7 @@ Kelas apa saja, siapa mewarisi siapa, siapa memiliki siapa, dan mengapa dirancan
 
 Contoh: memilih interface atau abstract class untuk suatu hal, mengapa.
 
-Kontainer saya buat pakai interface, bukan diturunkan dari Paket, Kontainer bukan paket, 
-jadi dia tidak punya berat dan ongkir, yang sama cuma satu, yaitu bisa dilacak. 
-Jadi cukup kemampuannya dibagi lewat interface.
+Kontainer saya buat pakai interface, bukan diturunkan dari paket, Kontainer bukan paket, jadi dia tidak punya berat dan ongkir, yang sama cuma satu, yaitu bisa dilacak. Jadi cukup kemampuannya dibagi lewat interface.
 
 ## 4. Bug atau kendala (minimal dua)
 
