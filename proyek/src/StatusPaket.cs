@@ -1,4 +1,5 @@
 namespace Proyek;
+
 public enum StatusPaket
 {
     DiTerima,
