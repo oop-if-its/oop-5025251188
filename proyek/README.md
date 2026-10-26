@@ -1,5 +1,8 @@
 # Proyek ETS PBO
 
+> Baca `SOAL.md` dulu. Ganti semua `TULIS_DI_SINI` di berkas ini, `AI-LOG.md`, dan `PROSES.md`. Berkas yang masih berisi
+> `TULIS_DI_SINI` dianggap belum diisi.
+
 ## Identitas
 
 - Nama: Novaldi Rayhan Asshiddiqi
