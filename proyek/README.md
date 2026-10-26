@@ -47,6 +47,22 @@ classDiagram
     class Kargo {
         +PakaiAsuransi bool
     }
+    class Kontainer {
+        +Resi string
+        +Status StatusPaket
+        +Masukkan(paket)
+        +MajuStatus(statusBaru)
+    }
+    class Ekspedisi {
+        +Tambah(paket)
+        +Cari(resi) Paket
+        +UbahStatus(resi, statusBaru)
+        +TotalOngkir() decimal
+    }
+    class RiwayatPelacakan {
+        +Catatan IReadOnlyList
+        +Tambah(status, keterangan)
+    }
 
     IBisaDilacak <|.. Paket
     IBisaDilacak <|.. Kontainer
