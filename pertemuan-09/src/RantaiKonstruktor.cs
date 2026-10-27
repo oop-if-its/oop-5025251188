@@ -32,11 +32,12 @@ public class Tingkat1
 {
     // TODO(Level 2): tambahkan field `private readonly string _f1 =
     //   Jejak.Catat("field Tingkat1");`
+    private readonly string _f1 = Jejak.Catat("field Tingkat1");
 
     public Tingkat1()
     {
         // TODO(Level 2): catat "ctor Tingkat1" lewat Jejak.Catat.
-        throw new NotImplementedException("Level 2 belum diimplementasikan");
+        Jejak.Catat("ctor Tingkat1");
     }
 }
 
@@ -44,11 +45,12 @@ public class Tingkat2 : Tingkat1
 {
     // TODO(Level 2): tambahkan field `private readonly string _f2 =
     //   Jejak.Catat("field Tingkat2");`
+    private readonly string _f2 = Jejak.Catat("field Tingkat2");
 
     public Tingkat2()
     {
         // TODO(Level 2): catat "ctor Tingkat2".
-        throw new NotImplementedException("Level 2 belum diimplementasikan");
+        Jejak.Catat("ctor Tingkat2");
     }
 }
 
@@ -56,18 +58,19 @@ public class Tingkat3 : Tingkat2
 {
     // TODO(Level 2): tambahkan field `private readonly string _f3 =
     //   Jejak.Catat("field Tingkat3");`
+    private readonly string _f3 = Jejak.Catat("field Tingkat3");
 
     public Tingkat3()
     {
         // TODO(Level 2): catat "ctor Tingkat3".
-        throw new NotImplementedException("Level 2 belum diimplementasikan");
+        Jejak.Catat("ctor Tingkat3");
     }
 
     // TODO(Level 2): konstruktor ini memanggil konstruktor tanpa parameter di
     //   atas lewat `: this()`, lalu SETELAH itu mencatat $"ctor
     //   Tingkat3({tambahan})".
-    public Tingkat3(string tambahan)
+    public Tingkat3(string tambahan) : this()
     {
-        throw new NotImplementedException("Level 2 belum diimplementasikan");
+        Jejak.Catat($"ctor Tingkat3({tambahan})");
     }
 }
