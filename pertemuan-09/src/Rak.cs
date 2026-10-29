@@ -24,7 +24,13 @@ public class Rak
         // TODO(Level 4): judul null/kosong/spasi -> ArgumentException; judul
         //   tidak ada di rak ATAU stoknya 0 -> lempar
         //   BukuTidakTersediaException(judul); selain itu kurangi stok satu.
-        throw new NotImplementedException("Level 4 belum diimplementasikan");
+        if (string.IsNullOrWhiteSpace(judul))
+            throw new ArgumentException("Judul tidak boleh kosong.", nameof(judul));
+
+        if (Stok(judul) == 0)
+            throw new BukuTidakTersediaException(judul);
+
+        _stok[judul] = _stok[judul] - 1;
     }
 }
 
@@ -49,6 +55,18 @@ public class LayananPinjam
         //   menjalar. Di blok `finally`, naikkan JumlahPercobaan -- harus selalu
         //   bertambah tiap CobaPinjam dipanggil, apa pun hasilnya (sukses,
         //   gagal, atau exception yang menjalar).
-        throw new NotImplementedException("Level 5 belum diimplementasikan");
+        try
+        {
+            _rak.Ambil(judul);
+            return new HasilPinjam(true, $"Berhasil meminjam: {judul}");
+        }
+        catch (BukuTidakTersediaException ex)
+        {
+            return new HasilPinjam(false, ex.Message);
+        }
+        finally
+        {
+            JumlahPercobaan++;
+        }
     }
 }
